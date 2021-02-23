@@ -91,15 +91,30 @@
             border: 1px solid #ccc;
             border-top: none;
         }
+
+        a {
+            text-decoration: none;
+        }
+
+        .footer {
+            text-decoration: none;
+            color: green;
+        }
     </style>
 </head>
 <body>
 <div class="centered">
-    <h1>人人影视下载分享</h1>
-    <h1>By Benny</h1>
-    <br>
-    <h2>本站数据库<b><a style="text-decoration: none;color: skyblue" href="https://t.me/mikuri520/668">永久开源免费</a></b>，<abbr
-            style="text-decoration: none" title="你也爬不下来啊">请不要做无意义的爬虫</abbr>
+    <h1>人人影视下载分享 By Benny</h1>
+    <h2>
+        <a href="https://www.buymeacoffee.com/bennythink" target="_blank"><img src="/img/default-green.png"
+                                                                               alt="Buy Me A Coffee"
+                                                                               style="height: 55px !important;width: 200px !important;"></a>
+        <a href="https://afdian.net/@BennyThink" target="_blank"><img src="/img/afdian.png" alt="爱发电"
+                                                                      style="height: 55px !important;width: 200px !important;"></a>
+    </h2>
+    <h2>本站数据库<b><a style="color: skyblue" href="https://t.me/mikuri520/668">永久开源免费</a></b>，<abbr
+            style="text-decoration: none" title="你也爬不下来啊">请不要做无意义的爬虫。</abbr>
+        <a href="help.html" style="color: deepskyblue">使用帮助？</a>
     </h2>
 
     <form action="search.html">
@@ -109,28 +124,22 @@
         <input type="submit" value="搜索">
     </form>
     <br>
-    <div id="tv">
-        <h2>大家都在看……</h2>
-        <div class="tab">
-            <button class="tablinks" onclick="openCity(event, 'US')">美剧</button>
-            <button class="tablinks" onclick="openCity(event, 'JP')">日剧</button>
-        </div>
-
-
-        <div id="US" class="tabcontent">
-        </div>
-
-        <div id="JP" class="tabcontent">
-        </div>
+    <h2>大家都在看🤔……</h2>
+    <div class="tab">
 
     </div>
 
-    <h2>相关资源</h2>
+    <div id="topContent">
+
+    </div>
+
+    <h2>相关资源⬇️</h2>
     <h3>
-        联系我 <a style="text-decoration: none;color: green" href="https://t.me/BennyThink">Benny 小可爱</a>・
-        YYeTs 机器人<a style="text-decoration: none;color: green" href="https://t.me/yyets_bot">Telegram Bot</a>・
-        开源 <a style="text-decoration: none;color: green" href="https://github.com/tgbot-collection/YYeTsBot">GitHub</a>・
-        我的博客 <a style="text-decoration: none;color: green" href="https://dmesg.app/">土豆不好吃</a>
+        联系我 <a class="footer" href="https://t.me/BennyThink">Benny 小可爱</a>・
+        YYeTs 机器人<a class="footer" href="https://t.me/yyets_bot">Telegram Bot</a>・
+        Telegram <a class="footer" href="https://t.me/mikuri520">Channel</a>・
+        开源 <a class="footer" href="https://github.com/tgbot-collection/YYeTsBot">GitHub</a>・
+        我的博客 <a class="footer" href="https://dmesg.app/">土豆不好吃</a>
     </h3>
 </div>
 </body>
@@ -138,11 +147,13 @@
 <script src="js/analytics.js"></script>
 
 <script>
+    accessMetrics();
+
     // get top
-    axios.get('/api/top?type=all')
+    axios.get('/api/top')
         .then(function (response) {
             // handle success
-            showTop(response.data.data)
+            showTop(response.data)
             // console.log(response.data);
         })
         .catch(function (error) {
@@ -155,29 +166,44 @@
 
 
     function showTop(data) {
+        const code2Name = data["class"];
+        let buttonParent = document.getElementsByClassName("tab")[0]
+        let topParent = document.getElementById("topContent")
+        delete data["class"];
+        for (let code in data) {
+            let button = `<button class="tablinks" onclick="openCity(event, '${code}')">${code2Name[code]}</button>`;
+            let div = `<div id="${code}" class="tabcontent"></div>`;
 
-        for (let i = 0; i < data.length; i++) {
-            let info = data[i].data.info
-            console.log(info.area)
-            let div = HTMLElement
+            let buttonChild = document.createElement('button');
+            buttonChild.innerHTML = button;
+            buttonChild = buttonChild.firstChild;
+            buttonParent.appendChild(buttonChild);
 
-            if (info.area === "美国") {
-                div = document.getElementById("US");
-            } else if (info.area === "日本") {
-                div = document.getElementById("JP");
+            let divChild = document.createElement('div');
+            divChild.innerHTML = div;
+            divChild = divChild.firstChild;
+            topParent.appendChild(divChild);
+
+            // render data
+            let countryInfo = data[code]
+            // let div = HTMLElement
+            for (let each in countryInfo) {
+                let info = countryInfo[each]["data"]["info"];
+                let divParent = document.getElementById(code);
+                let name = `${info.cnname} ${info.enname} ${info.aliasname}`;
+                let html = `<h4><a title="浏览量 ${info.views}" style="text-decoration: none;color: cornflowerblue" href="/resource.html?id=${info.id}">${name}</a></h4>`;
+
+                let divChild = document.createElement('h4');
+                divChild.innerHTML = html;
+                divChild = divChild.firstChild;
+                divParent.appendChild(divChild);
             }
-            let name = `${info.cnname} ${info.enname} ${info.aliasname}`;
-            let html = `<h4><a title="浏览量 ${info.views}" style="text-decoration: none;color: cornflowerblue" href="/resource.html?id=${info.id}">${name}</a></h4>`;
-            let backup = div.innerHTML;
-            div.innerHTML = backup + html;
 
         }
-        a = document.getElementById("US");
         document.getElementsByClassName("tab")[0].firstElementChild.className += " active"
-        a.style.display = "block"
+        document.getElementById("ALL").style.display = "block"
     }
 
-    accessMetrics();
 
     function openCity(evt, cityName) {
         var i, tabcontent, tablinks;

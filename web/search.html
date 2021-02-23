@@ -40,18 +40,26 @@
             text-align: center;
         }
 
+        a {
+            text-decoration: none;
+        }
 
     </style>
 </head>
 <body>
 <div class="centered">
-    <br>
-    <h1>人人影视下载分享</h1>
-    <h1>By Benny</h1>
-    <br>
-    <h2>这是我偷过来的，嘿嘿😝</h2>
-    <h2>在 <a style="text-decoration: none;color: deepskyblue" href="https://t.me/yyets_bot">这个 Telegram Bot</a>
-        里去使用，或者使用下方搜索框</h2>
+    <h1>人人影视下载分享 By Benny</h1>
+    <h2>
+        <a href="https://www.buymeacoffee.com/bennythink" target="_blank"><img src="/img/default-green.png"
+                                                                               alt="Buy Me A Coffee"
+                                                                               style="height: 55px !important;width: 200px !important;"></a>
+        <a href="https://afdian.net/@BennyThink" target="_blank"><img src="/img/afdian.png" alt="爱发电"
+                                                                      style="height: 55px !important;width: 200px !important;"></a>
+    </h2>
+    <h2>本站数据库<b><a style="color: skyblue" href="https://t.me/mikuri520/668">永久开源免费</a></b>，<abbr
+            style="text-decoration: none" title="你也爬不下来啊">请不要做无意义的爬虫。</abbr>
+        <a href="help.html" style="color: deepskyblue">使用帮助？</a>
+    </h2>
     <form action="search.html">
         <label>
             <input name="kw" id="kw" type="text">
@@ -68,6 +76,7 @@
         联系我 <a style="text-decoration: none;color: green" href="https://t.me/BennyThink">Benny 小可爱</a>・
         YYeTs 机器人<a style="text-decoration: none;color: green" href="https://t.me/yyets_bot">Telegram Bot</a>・
         开源 <a style="text-decoration: none;color: green" href="https://github.com/tgbot-collection/YYeTsBot">GitHub</a>・
+        Telegram <a style="text-decoration: none;color: green" href="https://t.me/mikuri520">Channel</a>・
         我的博客 <a style="text-decoration: none;color: green" href="https://dmesg.app/">土豆不好吃</a>
     </h3>
 </div>
@@ -111,7 +120,8 @@
 
         }
         if (data.length === 0) {
-            div.innerHTML = `<h2>没有搜索到结果 (ノへ￣、)</h2>`
+            let issueLink = `https://github.com/tgbot-collection/YYeTsBot/issues/new?assignees=BennyThink&labels=new&title=增加新资源【xxx】&body=请准确填写新资源的下载地址和大小，最好能够上传类似[如下格式的json文件](https://github.com/tgbot-collection/YYeTsBot/blob/master/management/format.json)。若不遵守此规则，issue将被关闭。谢谢。`;
+            div.innerHTML = `<h2>没有搜索到结果 (ノへ￣、)</h2><a style="text-decoration: none;color: cornflowerblue" target="_blank" href="${issueLink}">点我去补充信息</a>`
         }
     }
 
